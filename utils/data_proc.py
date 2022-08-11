@@ -63,14 +63,14 @@ def tic():
 
 def getTestingData_vcc(nImg=64):
     tic()
-    A = loadmat('/data0/yuanyuan/zhuoxu/K_UNN/data/ref.mat')
+    A = loadmat('data/ref.mat')
     org = A['recon']
     org = org.astype(np.complex64)
     org = np.expand_dims(org,0)
     org = np.transpose(org, [0, 3, 1, 2])
     org = np.concatenate([org, np.conjugate(np.flip(np.flip(org, 2), 3))], 1)
 
-    B = h5py.File('/data0/yuanyuan/zhuoxu/K_UNN/mask/cartesian_384x384_5x_acs12.mat')
+    B = h5py.File('mask/cartesian_384x384_5x_acs12.mat')
     mask = B['mask'][:]
     mask = np.transpose(mask, [1, 0])
     B.close()
@@ -78,7 +78,7 @@ def getTestingData_vcc(nImg=64):
     mask = np.tile(mask, [1, 15, 1, 1])
     mask = np.concatenate([mask,(np.flip(np.flip(mask, 2), 3))], 1)
 
-    C = h5py.File('/data0/yuanyuan/zhuoxu/K_UNN/mask/filter_384x384_03.mat')
+    C = h5py.File('mask/filter_384x384_03.mat')
     h = C['weight'][:]
     h = np.transpose(h, [1, 0])
     C.close()
