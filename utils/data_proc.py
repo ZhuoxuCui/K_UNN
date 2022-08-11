@@ -63,15 +63,11 @@ def tic():
 
 def getTestingData_vcc(nImg=64):
     tic()
-    A = h5py.File('/data0/yuanyuan/zhuoxu/K_UNN/data/knee_15ch_tst.h5')
-    org_real = A['org_real'][:]
-    org_img = A['org_img'][:]
-    org = org_real + 1j * org_img
-    del org_real, org_img
-
-    org = org[nImg:nImg+1, :, :, :]
-    A.close()
-    org = np.transpose(org, [0, 3, 2, 1])
+    A = loadmat('/data0/yuanyuan/zhuoxu/K_UNN/data/ref.mat')
+    org = A['recon']
+    org = org.astype(np.complex64)
+    org = np.expand_dims(org,0)
+    org = np.transpose(org, [0, 3, 1, 2])
     org = np.concatenate([org, np.conjugate(np.flip(np.flip(org, 2), 3))], 1)
 
     B = h5py.File('/data0/yuanyuan/zhuoxu/K_UNN/mask/cartesian_384x384_5x_acs12.mat')
